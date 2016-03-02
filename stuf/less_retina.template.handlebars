@@ -1,0 +1,76 @@
+{
+  'functions': true,
+  'variableNameTransforms': ['dasherize']
+}
+
+{{#each sprites}}
+@{{strings.name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{strings.name}}';
+{{/each}}
+@sprites: {{#each sprites}} @{{strings.name}}{{/each}};
+@sprite_names: {{#each sprites}} '{{strings.name}}'{{/each}};
+@sprites_image:{{#each sprites}} '{{escaped_image}}'{{/each}};
+{{#each retina_sprites}}
+@{{strings.name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{strings.name}}';
+{{/each}}
+
+@retina_sprites: {{#each retina_sprites}} @{{strings.name}}{{/each}};
+@retina_sprites_image:{{#each retina_sprites}} '{{escaped_image}}'{{/each}};
+.sprite-width(@sprite) {
+  width: extract(@sprite, 5);
+}
+
+.sprite-height(@sprite) {
+  height: extract(@sprite, 6);
+}
+
+.sprite-position(@sprite) {
+  @sprite-offset-x: extract(@sprite, 3);
+  @sprite-offset-y: extract(@sprite, 4);
+  background-position: @sprite-offset-x @sprite-offset-y;
+}
+
+.sprite-image(@sprite-image) {
+  background-image: url(@sprite-image);
+}
+
+.sprite(@sprite) {
+  .sprite-position(@sprite);
+  .sprite-width(@sprite);
+  .sprite-height(@sprite);
+}
+
+.sprite-images() {
+    @joined_sprite_names: ~`@{sprite_names}.join(',.')`;
+    @{joined_sprite_names} {
+        .sprite-image(e(extract(@sprites_image, 2)));
+            @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+                .sprite-image(e(extract(@retina_sprites_image, 2)));
+            }
+    };
+}
+
+.sprite-background-size(@sprite) {
+  @sprite-total-width: extract(@sprite, 7);
+  @sprite-total-height: extract(@sprite, 8);
+  background-size: @sprite-total-width @sprite-total-height;
+}
+
+.retina-sprite(@normal-sprite, @retina-sprite) {
+    .sprite(@normal-sprite);
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .sprite-background-size(@retina-sprite);
+    }
+}
+
+.retina-sprites(@i: 1) when (@i <= length(@retina_sprites)) {
+    @rsprite: extract(@retina_sprites, @i);
+    @sprite: extract(@sprites, @i);
+    @sprite-name: e(extract(@sprite, 9));
+    .@{sprite-name} {
+        .retina-sprite(@sprite, @rsprite);
+    }
+    .retina-sprites(@i + 1);
+}
+
+
