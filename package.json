@@ -12,7 +12,10 @@
     "gulp-uglify": "^1.5.3",
     "gulp.spritesmith": "^6.2.0",
     "less-plugin-autoprefix": "^1.5.1",
-    "less-plugin-clean-css": "^1.5.1"
+    "less-plugin-clean-css": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "vinyl-ftp": "^0.5.0",
+    "yargs": "^6.5.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

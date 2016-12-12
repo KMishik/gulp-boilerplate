@@ -1,6 +1,5 @@
 'use strict';
 var gulp = require('gulp'),
-
     less = require('gulp-less'),
     LessPluginCleanCSS = require('less-plugin-clean-css'),
     concatCss = require('gulp-concat-css'),
@@ -11,17 +10,62 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sprite = require('gulp.spritesmith'),
     browserSync = require('browser-sync').create(),
-    path = require('path');
+    path = require('path'),
+    gutil = require('gulp-util'),
+    ftp = require('vinyl-ftp'),
+    argv = require('yargs').argv;
+
+var config = {
+    debug: argv.dbg,
+    sprite: {
+        template: 'stuf/less.template.handlebars'
+    },
+    ftp: {
+        host: '',
+        user: '',
+        password: '',
+        path: '/templates/',
+    }
+};    
+    
+gulp.task('deploy', () => {
+ 
+	var conn = ftp.create( {
+		host:     config.ftp.host,
+		user:     config.ftp.user,
+		password: config.ftp.password,
+		parallel: 1,
+        timeOffset: -1,
+		log:      gutil.log
+	} );
+ 
+	var globs = [
+		'src/**',
+		'css/**',
+		'js/**',
+		'fonts/**',
+		'index.html'
+	];
+
+	gulp.src( ['./build/**', './assets/**', 'package.json', 'gulpfile.js'], { base: '.', buffer: false } )
+		.pipe( conn.newerOrDifferentSize(config.ftp.path) ) // only upload newer files 
+		.pipe( conn.dest(config.ftp.path));
+ 
+});     
+    
 
 gulp.task('less', function () {
-    gulp.src('./assets/css/*.less')
-        .pipe(less({
-            plugins: [autoprefix],
-            //paths: [path.join(__dirname, 'less', 'includes') ]
-        }))
-        .pipe(concatCss("bundle.css"))
-        .pipe(cleanCSS())
-        .pipe(gulp.dest('./build/css'));
+    var pipe = gulp.src('./assets/css/loader.less')
+            .pipe(less({
+                plugins: [autoprefix],
+            }))
+            .pipe(concatCss("bundle.css"));
+     
+    if (!config.debug) {
+        pipe.pipe(cleanCSS())
+    }
+
+    pipe.pipe(gulp.dest('./build/css'));
 
     if (browserSync) {
         browserSync.reload();
@@ -29,10 +73,17 @@ gulp.task('less', function () {
 });
 
 gulp.task('compress', function () {
-    gulp.src('./assets/js/*.js')
-        .pipe(uglify())
-        .pipe(concat('bundle.js'))
+    var pipe = gulp.src('./assets/js/*.js')
+        .pipe(concat('bundle.js'));
+
+    if (!config.debug) {    
+        pipe = pipe.pipe(uglify())
+    }
+    
+    pipe
+        .on('error', console.log.bind(console)) 
         .pipe(gulp.dest('./build/js/'));
+
     if (browserSync) {
         browserSync.reload();
     }
@@ -46,13 +97,9 @@ gulp.task('sprite', function() {
 		.pipe(sprite({
             imgName: 'sprite.png',
             imgPath: '../images/sprite.png',
-            retinaImgName: 'sprite@2x.png',
-            retinaImgPath: '../images/sprite@2x.png',
 
-            retinaSrcFilter: './assets/images/*@2x.png',
-            
             cssName: 'sprite.less',
-            cssTemplate: 'stuf/less_retina.template.handlebars',
+            cssTemplate: config.sprite.template,
             algorithm: 'binary-tree',
 		}));
  
