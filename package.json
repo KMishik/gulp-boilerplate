@@ -1,6 +1,6 @@
 {
   "name": "gulp-boilerplate-xd",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "gulpfile.js",
   "devDependencies": {
     "browser-sync": "^2.11.1",
