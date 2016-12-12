@@ -1,9 +1,45 @@
 # gulp-boilerplate
 
-Get started
+## Get started
 ```
 git clone https://github.com/xdan/gulp-boilerplate.git
 cd gulp-boilerplate
 npm install
 gulp
 ```
+
+## Commands
+
+```
+gulp sprite
+```
+Build `assets/images/*` images in one spritee and generate `sprite.less`
+
+```
+gulp less
+```
+Concatinate `assets/css/*.less` files in one, compile in `css`, adds prefix and clean
+
+```
+gulp compress
+```
+Concatinate `assets/js/*.js` files in one and uglify
+
+```
+gulp deploy
+```
+Send `build/*` to server by ftp
+
+```
+gulp watch
+```
+Watch for `assets/css/*.less`, `assets/js/*.js`,  `assets/images/*` after change run `sprite`, `less`, `compress` and after complete this run `deploy`
+
+```
+gulp default
+```
+or
+```
+gulp
+```
+Create http server, watch for `assets/css/*.less`, `assets/js/*.js`,  `assets/images/*` after change run `sprite`, `less`, `compress` and reload page

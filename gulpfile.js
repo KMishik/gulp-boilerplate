@@ -13,7 +13,8 @@ var gulp = require('gulp'),
     path = require('path'),
     gutil = require('gulp-util'),
     ftp = require('vinyl-ftp'),
-    argv = require('yargs').argv;
+    argv = require('yargs').argv,
+    runSequence = require('run-sequence');
 
 var config = {
     debug: argv.dbg,
@@ -114,14 +115,17 @@ var settings = {
 
 gulp.task('watch', function() {
     gulp
-        .watch('assets/css/**.less', function() {
-            gulp.run('less');
+        .watch('assets/css/**.less', function () {
+            runSequence('less', 'deploy');
         });
     gulp
-        .watch('stuf/**.handlebars', function() {
-            gulp
-                .run('sprite');
+        .watch(['stuf/**.handlebars', 'assets/images/**'], function () {
+            runSequence('sprite', 'deploy');
         });
+    gulp
+        .watch('assets/js/**', ['compress'], function () {
+            runSequence('compress', 'deploy');
+        })
 });
 // Запуск сервера разработки gulp watch
 gulp.task('default', ['sprite', 'less', 'compress'], function() {
@@ -138,24 +142,24 @@ gulp.task('default', ['sprite', 'less', 'compress'], function() {
     gulp
         .watch('stuf/**.handlebars', function() {
             gulp
-                .run('sprite');
+                .start('sprite');
         })
         .on("change", browserSync.reload);
     gulp
         .watch('assets/css/**.less', function() {
-            gulp.run('less');
+            gulp.start('less');
         })
         .on("change", browserSync.reload);
 
     gulp
         .watch('assets/images/**', function() {
-            gulp.run('sprite');
+            gulp.start('sprite');
         })
         .on("change", browserSync.reload);
 
     gulp
         .watch('assets/js/**', function() {
-            gulp.run('compress');
+            gulp.start('compress');
         })
          .on("change", browserSync.reload);
 

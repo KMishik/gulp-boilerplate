@@ -1,6 +1,6 @@
 {
   "name": "gulp-boilerplate-xd",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "gulpfile.js",
   "devDependencies": {
     "browser-sync": "^2.11.1",
@@ -15,7 +15,8 @@
     "less-plugin-clean-css": "^1.5.1",
     "gulp-util": "^3.0.7",
     "vinyl-ftp": "^0.5.0",
-    "yargs": "^6.5.0"
+    "yargs": "^6.5.0",
+    "run-sequence": "^1.2.2"
   },
   "scripts": {
     "build": "npm version patch --no-git-tag-version && npm run github",
