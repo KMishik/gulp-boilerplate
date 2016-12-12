@@ -30,26 +30,26 @@ var config = {
     
 gulp.task('deploy', () => {
  
-	var conn = ftp.create( {
-		host:     config.ftp.host,
-		user:     config.ftp.user,
-		password: config.ftp.password,
-		parallel: 1,
+    var conn = ftp.create( {
+        host:     config.ftp.host,
+        user:     config.ftp.user,
+        password: config.ftp.password,
+        parallel: 1,
         timeOffset: -1,
-		log:      gutil.log
-	} );
+        log:      gutil.log
+    } );
  
-	var globs = [
-		'src/**',
-		'css/**',
-		'js/**',
-		'fonts/**',
-		'index.html'
-	];
+    var globs = [
+        'src/**',
+        'css/**',
+        'js/**',
+        'fonts/**',
+        'index.html'
+    ];
 
-	gulp.src( ['./build/**', './assets/**', 'package.json', 'gulpfile.js'], { base: '.', buffer: false } )
-		.pipe( conn.newerOrDifferentSize(config.ftp.path) ) // only upload newer files 
-		.pipe( conn.dest(config.ftp.path));
+    gulp.src( ['./build/**', './assets/**', 'package.json', 'gulpfile.js'], { base: '.', buffer: false } )
+        .pipe( conn.newerOrDifferentSize(config.ftp.path) ) // only upload newer files 
+        .pipe( conn.dest(config.ftp.path));
  
 });     
     
@@ -93,15 +93,15 @@ gulp.task('compress', function () {
 gulp.task('sprite', function() {
     var spriteOutput;
  
-	spriteOutput = gulp.src("./assets/images/*.png")
-		.pipe(sprite({
+    spriteOutput = gulp.src("./assets/images/*.png")
+        .pipe(sprite({
             imgName: 'sprite.png',
             imgPath: '../images/sprite.png',
 
             cssName: 'sprite.less',
             cssTemplate: config.sprite.template,
             algorithm: 'binary-tree',
-		}));
+        }));
  
     spriteOutput.css.pipe(gulp.dest("./assets/css"));
     spriteOutput.img.pipe(gulp.dest("./build/images"));
