@@ -18,6 +18,7 @@
     "yargs": "^6.5.0"
   },
   "scripts": {
+    "github": "git add --all  && git commit -m \"New version %npm_package_version% \" && git tag %npm_package_version% && git push --tags origin HEAD:master && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
