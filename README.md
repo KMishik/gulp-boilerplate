@@ -7,6 +7,10 @@ cd gulp-boilerplate
 npm install
 gulp
 ```
+## Deploy to GITHUB
+```
+npm run biuld
+```
 
 ## Commands
 
@@ -43,3 +47,13 @@ or
 gulp
 ```
 Create http server, watch for `assets/css/*.less`, `assets/js/*.js`,  `assets/images/*` after change run `sprite`, `less`, `compress` and reload page
+
+## Debug
+```
+gulp compress --dbg
+```
+Concat js files without `uglify` 
+```
+gulp less --dbg
+```
+Concat less and compile files without `cleanCSS` 

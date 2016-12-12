@@ -1,0 +1,68 @@
+@close-button-size: 30px;
+.dialog-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index:1000;
+    text-align: center;
+    opacity: 0;
+    transition: opacity .3s linear;
+    display: none;
+
+    &.active {
+        opacity: 1;
+    }
+
+    .dialog {
+        transition: transform .3s linear;
+        transform: scale(0.5, 0.5);
+        display: inline-block;
+        vertical-align: middle;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 3px 3px 6px 1px rgba(0, 0, 0, 0.1);
+        position: relative;
+        .closer {
+            font-family: Arial;
+            display: inline-block;
+            width: @close-button-size;
+            height: @close-button-size;
+            line-height: @close-button-size;
+            text-align: center;
+            vertical-align: middle;
+            font-size: @close-button-size;
+            border:1px solid #ccc;
+            border-radius: 50%;
+            position:absolute;
+            right:-@close-button-size/2;
+            top:-@close-button-size/2;
+            color: #000;
+            text-decoration: none;
+            background-color: #fff;
+            opacity: .8;
+            transition: opacity .3s linear, transform .3s linear;
+            &:hover {
+                transform: scale(1.1, 1.1);
+                opacity: 1;
+            }
+            &:active {
+                transform: rotate(30deg);
+            }
+        }
+    }
+    &.active {
+        opacity: 1;
+        .dialog {
+            transform: scale(1,1);
+        }
+    }
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+}

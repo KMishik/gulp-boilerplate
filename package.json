@@ -1,6 +1,6 @@
 {
   "name": "gulp-boilerplate-xd",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "gulpfile.js",
   "devDependencies": {
     "browser-sync": "^2.11.1",
@@ -18,12 +18,16 @@
     "yargs": "^6.5.0",
     "run-sequence": "^1.2.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xdan/gulp-boilerplate.git"
+  },
   "scripts": {
     "build": "npm version patch --no-git-tag-version && npm run github",
     "github": "git add --all  && git commit -m \"New version %npm_package_version% \" && git tag %npm_package_version% && git push --tags origin HEAD:master && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": ""
 }

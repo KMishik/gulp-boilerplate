@@ -113,6 +113,9 @@ var settings = {
     start: "./"
 };
 
+gulp.task('build', function() {
+    runSequence('sprite', 'less', 'compress');
+});
 gulp.task('watch', function() {
     gulp
         .watch('assets/css/**.less', function () {
@@ -123,7 +126,7 @@ gulp.task('watch', function() {
             runSequence('sprite', 'deploy');
         });
     gulp
-        .watch('assets/js/**', ['compress'], function () {
+        .watch('assets/js/**', function () {
             runSequence('compress', 'deploy');
         })
 });
