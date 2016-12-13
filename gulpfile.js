@@ -76,7 +76,7 @@ gulp.task('less', function () {
     }
 
     if (config.debug) {
-        pipe = pipe.pipe(sourcemaps.write());
+        pipe = pipe.pipe(sourcemaps.write('./maps'));
     }
 
     pipe.pipe(gulp.dest('./build/css'));

@@ -1,6 +1,8 @@
 # gulp-boilerplate
+Generate start stack: less(concat, minify, sourcemap) + sprite generator + js (concatinate, uglify) + deploy (ftp) + watch + livereload
 
 ## Get started
+
 ```
 git clone https://github.com/xdan/gulp-boilerplate.git
 cd gulp-boilerplate
@@ -8,6 +10,7 @@ npm install
 gulp
 ```
 ## Deploy to GITHUB
+
 ```
 npm run biuld
 ```
