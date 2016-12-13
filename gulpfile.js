@@ -14,6 +14,8 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     ftp = require('vinyl-ftp'),
     argv = require('yargs').argv,
+    sourcemaps = require('gulp-sourcemaps'),
+    path = require('path'),
     runSequence = require('run-sequence');
 
 var config = {
@@ -56,14 +58,25 @@ gulp.task('deploy', () => {
     
 
 gulp.task('less', function () {
-    var pipe = gulp.src('./assets/css/loader.less')
-            .pipe(less({
-                plugins: [autoprefix],
-            }))
-            .pipe(concatCss("bundle.css"));
+    var pipe = gulp.src(['./assets/css/bundle.less']);
+
+    if (config.debug) {
+        pipe = pipe.pipe(sourcemaps.init());
+    }
+
+    pipe = pipe.pipe(less({
+        plugins: [autoprefix],
+        paths: [ path.join(__dirname, 'less', 'includes') ]
+    }));
+
+    //pipe = pipe.pipe(concatCss("bundle.css"));
      
     if (!config.debug) {
-        pipe.pipe(cleanCSS())
+        pipe = pipe.pipe(cleanCSS())
+    }
+
+    if (config.debug) {
+        pipe = pipe.pipe(sourcemaps.write());
     }
 
     pipe.pipe(gulp.dest('./build/css'));

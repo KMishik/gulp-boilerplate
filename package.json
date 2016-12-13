@@ -1,6 +1,6 @@
 {
   "name": "gulp-boilerplate-xd",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "gulpfile.js",
   "devDependencies": {
     "browser-sync": "^2.11.1",
@@ -16,6 +16,7 @@
     "gulp-util": "^3.0.7",
     "vinyl-ftp": "^0.5.0",
     "yargs": "^6.5.0",
+    "gulp-sourcemaps": "^1.9.1",
     "run-sequence": "^1.2.2"
   },
   "repository": {
