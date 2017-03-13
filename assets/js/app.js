@@ -1,5 +1,5 @@
-import {Dialog} from './dialog'
-document.querySelector('.showdialog').addEventListener('click', () => {
-    let dialog = new Dialog();
-    dialog.open();
-})
+    // import {Dialog} from './dialog'
+    // document.querySelector('.showdialog').addEventListener('click', () => {
+    //     let dialog = new Dialog();
+    //     dialog.open();
+    // })
