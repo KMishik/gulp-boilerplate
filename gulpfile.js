@@ -18,6 +18,8 @@ var gulp = require('gulp'),
     path = require('path'),
     runSequence = require('run-sequence');
 
+const babel = require('gulp-babel');
+
 var config = {
     debug: argv.dbg,
     sprite: {
@@ -87,11 +89,20 @@ gulp.task('less', function () {
 });
 
 gulp.task('compress', function () {
-    var pipe = gulp.src('./assets/js/*.js')
-        .pipe(concat('bundle.js'));
+    var pipe = gulp.src('./assets/js/main.js');
+
+    if (config.debug) {
+        pipe = pipe.pipe(sourcemaps.init());
+    }
+        //.pipe(concat('bundle.js'))
+    pipe.pipe(babel({
+        presets: ['es2015']
+    }))
 
     if (!config.debug) {    
         pipe = pipe.pipe(uglify())
+    } else {
+        pipe = pipe.pipe(sourcemaps.write('.'))
     }
     
     pipe
@@ -143,7 +154,7 @@ gulp.task('watch', function() {
             runSequence('compress', 'deploy');
         })
 });
-// Запуск сервера разработки gulp watch
+// Р—Р°РїСѓСЃРє СЃРµСЂРІРµСЂР° СЂР°Р·СЂР°Р±РѕС‚РєРё gulp watch
 gulp.task('default', ['sprite', 'less', 'compress'], function() {
    
     browserSync.init({
