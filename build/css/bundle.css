@@ -88,6 +88,9 @@ table {
   border-spacing: 0;
 }
 .dialog-box {
+  display: none;
+}
+.dialog-box .overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -99,12 +102,11 @@ table {
   opacity: 0;
   -webkit-transition: opacity .3s linear;
   transition: opacity .3s linear;
-  display: none;
 }
-.dialog-box.active {
+.dialog-box .overlay.active {
   opacity: 1;
 }
-.dialog-box .dialog {
+.dialog-box .overlay .dialog {
   -webkit-transition: -webkit-transform .3s linear;
   transition: -webkit-transform .3s linear;
   transition: transform .3s linear;
@@ -120,7 +122,7 @@ table {
           box-shadow: 3px 3px 6px 1px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-.dialog-box .dialog .closer {
+.dialog-box .overlay .dialog .closer {
   font-family: Arial;
   display: inline-block;
   width: 30px;
@@ -144,26 +146,26 @@ table {
   transition: opacity .3s linear, transform .3s linear;
   transition: opacity .3s linear, transform .3s linear, -webkit-transform .3s linear;
 }
-.dialog-box .dialog .closer:hover {
+.dialog-box .overlay .dialog .closer:hover {
   -webkit-transform: scale(1.1, 1.1);
       -ms-transform: scale(1.1, 1.1);
           transform: scale(1.1, 1.1);
   opacity: 1;
 }
-.dialog-box .dialog .closer:active {
+.dialog-box .overlay .dialog .closer:active {
   -webkit-transform: rotate(30deg);
       -ms-transform: rotate(30deg);
           transform: rotate(30deg);
 }
-.dialog-box.active {
+.dialog-box .overlay.active {
   opacity: 1;
 }
-.dialog-box.active .dialog {
+.dialog-box .overlay.active .dialog {
   -webkit-transform: scale(1, 1);
       -ms-transform: scale(1, 1);
           transform: scale(1, 1);
 }
-.dialog-box:before {
+.dialog-box .overlay:before {
   content: '';
   display: inline-block;
   height: 100%;

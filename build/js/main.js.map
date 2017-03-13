@@ -1,1 +1,0 @@
-{"version":3,"sources":["main.js"],"names":["Alex","alert"],"mappings":";;;;IAAMA,I,GACF,gBAAc;AAAA;;AACV;AACAC,UAAM,CAAN;AACH,C;;AAEL,IAAID,IAAJ","file":"main.js","sourcesContent":["class Alex {\r\n    constructor() {\r\n        debugger\r\n        alert(1)\r\n    }\r\n}\r\nnew Alex();"]}

@@ -1,8 +1,6 @@
 'use strict';
 var gulp = require('gulp'),
     less = require('gulp-less'),
-    LessPluginCleanCSS = require('less-plugin-clean-css'),
-    concatCss = require('gulp-concat-css'),
     cleanCSS = require('gulp-clean-css'),
     concat = require('gulp-concat'),
     LessPluginAutoPrefix = require('less-plugin-autoprefix'),
@@ -15,11 +13,17 @@ var gulp = require('gulp'),
     ftp = require('vinyl-ftp'),
     argv = require('yargs').argv,
     sourcemaps = require('gulp-sourcemaps'),
-    path = require('path'),
     runSequence = require('run-sequence');
 
-const babel = require('gulp-babel');
+var source     = require('vinyl-source-stream'),
+    browserify = require('browserify'),
+    buffer     = require('vinyl-buffer'),
+    babelify   = require('babelify');
 
+
+
+const babel = require('gulp-babel');
+const eslint = require('gulp-eslint');
 var config = {
     debug: argv.dbg,
     sprite: {
@@ -89,29 +93,23 @@ gulp.task('less', function () {
 });
 
 gulp.task('compress', function () {
-    var pipe = gulp.src('./assets/js/main.js');
+    gulp.src('./assets/js/**.js')
+        .pipe(eslint({useEslintrc: true}))
+        .pipe(eslint.format())
+        .pipe(eslint.formatEach('compact', process.stderr))
 
-    if (config.debug) {
-        pipe = pipe.pipe(sourcemaps.init());
-    }
-        //.pipe(concat('bundle.js'))
-    pipe.pipe(babel({
-        presets: ['es2015']
-    }))
 
-    if (!config.debug) {    
-        pipe = pipe.pipe(uglify())
-    } else {
-        pipe = pipe.pipe(sourcemaps.write('.'))
-    }
-    
-    pipe
-        .on('error', console.log.bind(console)) 
-        .pipe(gulp.dest('./build/js/'));
-
-    if (browserSync) {
-        browserSync.reload();
-    }
+    browserify({entries: './assets/js/app.js', debug:true}).transform(babelify, {
+        presets: ["es2015", "stage-0"], sourceMaps: true
+    })
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./build/js'))
+        .pipe(gutil.noop())
 });
 
 
