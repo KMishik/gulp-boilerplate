@@ -1,5 +1,5 @@
 # gulp-boilerplate
-Generate start stack: less(concat, minify, sourcemap) + sprite generator + js (concatinate, uglify) + deploy (ftp) + watch + livereload
+Generate start stack: less(concat, minify, sourcemap) + sprite generator + js (babel, concatinate, uglify, sourcemap) + deploy (ftp) + watch + livereload
 
 ## Get started
 
@@ -7,12 +7,12 @@ Generate start stack: less(concat, minify, sourcemap) + sprite generator + js (c
 git clone https://github.com/xdan/gulp-boilerplate.git
 cd gulp-boilerplate
 npm install
-gulp
+gulp --dbg
 ```
 ## Deploy to GITHUB
 
 ```
-npm run biuld
+npm run build
 ```
 
 ## Commands
@@ -20,7 +20,7 @@ npm run biuld
 ```
 gulp sprite
 ```
-Build `assets/images/*` images in one spritee and generate `sprite.less`
+Build `assets/images/*` images in one sprite and generate `sprite.less`
 
 ```
 gulp less
@@ -43,11 +43,11 @@ gulp watch
 Watch for `assets/css/*.less`, `assets/js/*.js`,  `assets/images/*` after change run `sprite`, `less`, `compress` and after complete this run `deploy`
 
 ```
-gulp default
+gulp default --dbg
 ```
 or
 ```
-gulp
+gulp --dbg
 ```
 Create http server, watch for `assets/css/*.less`, `assets/js/*.js`,  `assets/images/*` after change run `sprite`, `less`, `compress` and reload page
 
