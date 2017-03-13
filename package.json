@@ -1,6 +1,6 @@
 {
   "name": "gulp-boilerplate-xd",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "gulpfile.js",
   "devDependencies": {
     "babel-preset-es2015": "^6.24.0",
